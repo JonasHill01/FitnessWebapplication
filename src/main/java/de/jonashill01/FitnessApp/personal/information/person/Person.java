@@ -15,13 +15,15 @@ public class Person {
 
     @Id
     private ObjectId objId;
-    private String bodyStatsId, dailyNutritionId, sportActivity, goalId, name;
+    private ObjectId bodyStatsId, dailyNutritionId, goalId;
+    private String name;
+    private int sportActivity;
 
-    public Person(String bodyStatsId, String dailyNutritionId, String sportActivity, String goalId, String name) {
+    public Person(ObjectId bodyStatsId, ObjectId dailyNutritionId, ObjectId goalId, String name, int sportActivity) {
         this.bodyStatsId = bodyStatsId;
         this.dailyNutritionId = dailyNutritionId;
-        this.sportActivity = sportActivity;
         this.goalId = goalId;
         this.name = name;
+        this.sportActivity = sportActivity;
     }
 }
