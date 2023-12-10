@@ -1,4 +1,4 @@
-package de.jonashill01.FitnessApp.personal.information;
+package de.jonashill01.FitnessApp.personal.information.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

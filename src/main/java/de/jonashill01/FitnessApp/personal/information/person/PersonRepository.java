@@ -1,4 +1,4 @@
-package de.jonashill01.FitnessApp.personal.information;
+package de.jonashill01.FitnessApp.personal.information.person;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
