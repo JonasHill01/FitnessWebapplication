@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.jonashill01</groupId>
 	<artifactId>FitnessApp</artifactId>
-	<version>1.0.0-DEV</version>
+	<version>1.0.1-DEV</version>
 	<name>FitnessApp</name>
 	<description>Fitness Webapplication with spring-boot and mongodb</description>
 	<properties>
@@ -41,6 +41,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>me.paulschwarz</groupId>
+			<artifactId>spring-dotenv</artifactId>
+			<version>2.5.4</version>
 		</dependency>
 	</dependencies>
 
