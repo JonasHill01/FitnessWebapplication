@@ -15,15 +15,16 @@ public class Person {
 
     @Id
     private ObjectId objId;
-    private ObjectId bodyStatsId, dailyNutritionId, goalId;
+    private ObjectId bodyStatsId, goalId;
+    private int age;
     private String name;
-    private int sportActivity;
+    private boolean isMale;
 
-    public Person(ObjectId bodyStatsId, ObjectId dailyNutritionId, ObjectId goalId, String name, int sportActivity) {
+    public Person(ObjectId bodyStatsId, ObjectId goalId, int age, String name, boolean isMale) {
         this.bodyStatsId = bodyStatsId;
-        this.dailyNutritionId = dailyNutritionId;
         this.goalId = goalId;
+        this.age = age;
         this.name = name;
-        this.sportActivity = sportActivity;
+        this.isMale = isMale;
     }
 }

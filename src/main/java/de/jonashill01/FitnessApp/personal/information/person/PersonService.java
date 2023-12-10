@@ -10,7 +10,7 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person createPerson(ObjectId bodyStatsId, ObjectId dailyNutritionId, ObjectId goalId, String name, int sportActivity) {
-       return personRepository.insert(new Person(bodyStatsId, dailyNutritionId, goalId, name, sportActivity));
+    public Person createPerson(ObjectId bodyStatsId, ObjectId goalId, int age, String name, boolean isMale) {
+       return personRepository.insert(new Person(bodyStatsId, goalId, age, name, isMale));
     }
 }
