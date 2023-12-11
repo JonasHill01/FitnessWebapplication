@@ -39,7 +39,7 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<DailyNutrition> createDailyNutritionPlan(@RequestBody ActivityRequest request) {
         if(!isRequestValid(request)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        Activity newActivity = getActivityFromRequest(request);
+        Activity newActivity = createActivityFromRequest(request);
 
         Optional<Person> personOpt = personService.getPersonFromObjectId(request.getPersonId());
         if(personOpt.isEmpty()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -49,7 +49,7 @@ public class ActivityController {
         if(bodyStatisticsOpt.isEmpty()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         BodyStatistics bodyStatistics = bodyStatisticsOpt.get();
 
-        DailyNutrition newDailyNutrition = getDailyNutrition(person, bodyStatistics, newActivity);
+        DailyNutrition newDailyNutrition = createDailyNutrition(person, bodyStatistics, newActivity);
         System.out.println(newDailyNutrition);
 
         return new ResponseEntity<>(newDailyNutrition, HttpStatus.CREATED);
@@ -68,11 +68,11 @@ public class ActivityController {
         return personId != null && sleep + sitting + walking + training == hoursADay && timestamp != null;
     }
 
-    private Activity getActivityFromRequest(ActivityRequest request) {
+    private Activity createActivityFromRequest(ActivityRequest request) {
         return activityService.createActivity(request.getSleep(), request.getSitting(), request.getWalking(), request.getTraining(), request.getTimestamp());
     }
 
-    private DailyNutrition getDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
+    private DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
         return dailyNutritionService.createDailyNutrition(person, bodyStatistics, activity);
     }
 

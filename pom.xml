@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.jonashill01</groupId>
 	<artifactId>FitnessApp</artifactId>
-	<version>1.0.11-DEV</version>
+	<version>1.0.12-DEV</version>
 	<name>FitnessApp</name>
 	<description>Fitness Webapplication with spring-boot and mongodb</description>
 	<properties>
