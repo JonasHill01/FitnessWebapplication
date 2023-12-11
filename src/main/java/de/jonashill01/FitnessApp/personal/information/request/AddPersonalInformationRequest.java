@@ -1,4 +1,4 @@
-package de.jonashill01.FitnessApp.personal.information;
+package de.jonashill01.FitnessApp.personal.information.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 @AllArgsConstructor
 @Data
-public class PersonalInformationRequest {
+public class AddPersonalInformationRequest {
 
     private int age, weight, height;
     private String name;
