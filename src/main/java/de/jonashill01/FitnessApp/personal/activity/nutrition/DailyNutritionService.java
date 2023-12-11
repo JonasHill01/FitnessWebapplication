@@ -3,6 +3,7 @@ package de.jonashill01.FitnessApp.personal.activity.nutrition;
 import de.jonashill01.FitnessApp.personal.activity.daily_activity.Activity;
 import de.jonashill01.FitnessApp.personal.information.body_statistics.BodyStatistics;
 import de.jonashill01.FitnessApp.personal.information.person.Person;
+import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class DailyNutritionService {
 
-    @Autowired
     private DailyNutritionRepository dailyNutritionRepository;
 
     public DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
