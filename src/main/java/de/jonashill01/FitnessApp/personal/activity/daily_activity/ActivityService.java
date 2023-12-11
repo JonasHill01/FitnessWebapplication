@@ -3,10 +3,12 @@ package de.jonashill01.FitnessApp.personal.activity.daily_activity;
 import de.jonashill01.FitnessApp.personal.activity.nutrition.DailyNutrition;
 import de.jonashill01.FitnessApp.personal.information.body_statistics.BodyStatistics;
 import de.jonashill01.FitnessApp.personal.information.person.Person;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ActivityService {
@@ -18,4 +20,9 @@ public class ActivityService {
         Activity newActivity = new Activity(sleep, sitting, walking, training, timestamp);
         return activityRepository.insert(newActivity);
     }
+
+    public Optional<Activity> getActivityFromObjectId(ObjectId objId) {
+        return activityRepository.findById(objId);
+    }
+
 }
