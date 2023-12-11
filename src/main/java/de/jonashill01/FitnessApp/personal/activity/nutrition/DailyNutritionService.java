@@ -3,8 +3,11 @@ package de.jonashill01.FitnessApp.personal.activity.nutrition;
 import de.jonashill01.FitnessApp.personal.activity.daily_activity.Activity;
 import de.jonashill01.FitnessApp.personal.information.body_statistics.BodyStatistics;
 import de.jonashill01.FitnessApp.personal.information.person.Person;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class DailyNutritionService {
@@ -22,6 +25,10 @@ public class DailyNutritionService {
 
         DailyNutrition newDailyNutrition = new DailyNutrition(activity.getObjId(), activity.getTimestamp(), sumCalories, proteins, carbs, fats);
         return dailyNutritionRepository.insert(newDailyNutrition);
+    }
+
+    public Optional<DailyNutrition> getDailyNutritionFromObjectId(ObjectId objId) {
+        return dailyNutritionRepository.findById(objId);
     }
 
     /**
