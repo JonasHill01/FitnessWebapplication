@@ -17,11 +17,13 @@ public class DailyNutritionService {
 
     public DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
         int baseCalories = getBaseCalories(person, bodyStatistics);
+        System.out.println("baseCalories: " + baseCalories);
         int performanceCalories = getPerformanceCalories(activity, baseCalories);
+        System.out.println("performanceCalories: " + performanceCalories);
         int sumCalories = baseCalories + performanceCalories;
         int proteins = calculateProteins(activity, bodyStatistics);
-        int carbs = calculateCarbs(activity, bodyStatistics);
         int fats = calculateFats(activity, bodyStatistics);
+        int carbs = calculateCarbs(sumCalories, proteins, fats);
 
         DailyNutrition newDailyNutrition = new DailyNutrition(activity.getObjId(), activity.getTimestamp(), sumCalories, proteins, carbs, fats);
         return dailyNutritionRepository.insert(newDailyNutrition);
@@ -67,7 +69,9 @@ public class DailyNutritionService {
      * */
     private int getPerformanceCalories(Activity activity, int baseNutrition) {
         double palFactor = calculatePalFactor(activity);
+        System.out.println("palFactor: " + palFactor);
         double result = (baseNutrition * palFactor) - baseNutrition;
+        System.out.println("result: " + result);
         return (int) Math.ceil(result);
     }
 
@@ -76,7 +80,7 @@ public class DailyNutritionService {
      * */
     private double calculatePalFactor(Activity activity) {
         final int hoursADay = 24;
-        double palValueSleeping = 0.95, palValueSitting = 1, palValueWalking = 1.6, palValueTraining = 2.0;
+        double palValueSleeping = 0.95, palValueSitting = 1.1, palValueWalking = 1.8, palValueTraining = 2.4;
 
         double sleepingVal = palValueSleeping * activity.getSleep();
         double sittingVal = palValueSitting * activity.getSitting();
@@ -87,38 +91,49 @@ public class DailyNutritionService {
     }
 
     private int calculateProteins(Activity activity, BodyStatistics bodyStatistics) {
-        double baseNeededValPerKiloGram = calculateBaseNeededValPerKiloGramWeight(activity, 0.5);
+        double baseNeededValPerKiloGram = calculateBaseNeededValPerKiloGramWeight(activity, 2.2);
         double result = calculateNeededNutrition(baseNeededValPerKiloGram, bodyStatistics.getWeight());
         return (int) Math.ceil(result);
     }
 
     private int calculateFats(Activity activity, BodyStatistics bodyStatistics) {
-        double baseNeededValPerKiloGram = calculateBaseNeededValPerKiloGramWeight(activity, 1.5);
+        double baseNeededValPerKiloGram = calculateBaseNeededValPerKiloGramWeight(activity, 0.4);
         double result = calculateNeededNutrition(baseNeededValPerKiloGram, bodyStatistics.getWeight());
         return (int) Math.ceil(result);
     }
 
-    private int calculateCarbs(Activity activity, BodyStatistics bodyStatistics) {
-        double baseNeededValPerKiloGram = calculateBaseNeededValPerKiloGramWeight(activity, 0);
-        double result = calculateNeededNutrition(baseNeededValPerKiloGram, bodyStatistics.getWeight());
-        return (int) Math.ceil(result);
-    }
-
-    private double calculateBaseNeededValPerKiloGramWeight(Activity activity, double baseVal) {
+        private double calculateBaseNeededValPerKiloGramWeight(Activity activity, double baseVal) {
         return baseVal + calculateBaseKiloGramIncrease(activity);
     }
     private double calculateBaseKiloGramIncrease(Activity activity) {
         double palFactor = calculatePalFactor(activity);
         if(palFactor <= 1) return 0;
-        else if(palFactor <= 1.2) return 0.1;
-        else if(palFactor <= 1.4) return 0.2;
-        else if(palFactor <= 1.6) return 0.3;
-        else if(palFactor <= 1.8) return 0.4;
+        else if(palFactor <= 1.15) return 0.1;
+        else if(palFactor <= 1.2) return 0.2;
+        else if(palFactor <= 1.3) return 0.3;
+        else if(palFactor <= 1.4) return 0.4;
         else  return 0.5;
     }
 
     private double calculateNeededNutrition(double baseValPerKiloGramWeight, int weight) {
         return baseValPerKiloGramWeight * weight;
+    }
+
+    private int calculateCarbs(int calories, int proteinsInGram, int fatsInGram) {
+        int caloriesFromFatsAndProtein = calculateCaloriesForProtein(proteinsInGram) + calculateCaloriesForFats(fatsInGram);
+        int leftOverCalories = calories - caloriesFromFatsAndProtein;
+        final double caloriesToCarbsDivider = 4.1;
+        return (int) Math.ceil(leftOverCalories / caloriesToCarbsDivider);
+    }
+
+    private int calculateCaloriesForProtein(int proteinsInGram) {
+        final double proteinsInCaloriesMultiplier = 4.1;
+        return (int) Math.ceil(proteinsInGram *  proteinsInCaloriesMultiplier);
+    }
+
+    private int calculateCaloriesForFats(int fatsInGram) {
+        final double fatsInCaloriesMultiplier = 9.3;
+        return (int) Math.ceil(fatsInGram *  fatsInCaloriesMultiplier);
     }
 
 }
