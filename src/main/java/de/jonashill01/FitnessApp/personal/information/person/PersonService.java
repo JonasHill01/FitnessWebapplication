@@ -4,6 +4,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PersonService {
 
@@ -14,5 +16,9 @@ public class PersonService {
         Person newPerson = new Person(bodyStatsId, goalId, age, name, isMale);
        return personRepository.insert(newPerson);
     }
+
+    public Optional<Person> getPersonFromObjectId(ObjectId objId) {
+        return personRepository.findById(objId);
     }
+
 }
