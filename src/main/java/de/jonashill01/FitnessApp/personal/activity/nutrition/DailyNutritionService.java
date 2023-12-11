@@ -17,9 +17,7 @@ public class DailyNutritionService {
 
     public DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
         int baseCalories = getBaseCalories(person, bodyStatistics);
-        System.out.println("baseCalories: " + baseCalories);
         int performanceCalories = getPerformanceCalories(activity, baseCalories);
-        System.out.println("performanceCalories: " + performanceCalories);
         int sumCalories = baseCalories + performanceCalories;
         int proteins = calculateProteins(activity, bodyStatistics);
         int fats = calculateFats(activity, bodyStatistics);
@@ -69,9 +67,7 @@ public class DailyNutritionService {
      * */
     private int getPerformanceCalories(Activity activity, int baseNutrition) {
         double palFactor = calculatePalFactor(activity);
-        System.out.println("palFactor: " + palFactor);
         double result = (baseNutrition * palFactor) - baseNutrition;
-        System.out.println("result: " + result);
         return (int) Math.ceil(result);
     }
 

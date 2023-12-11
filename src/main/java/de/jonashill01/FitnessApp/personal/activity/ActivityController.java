@@ -50,7 +50,6 @@ public class ActivityController {
         BodyStatistics bodyStatistics = bodyStatisticsOpt.get();
 
         DailyNutrition newDailyNutrition = createDailyNutrition(person, bodyStatistics, newActivity);
-        System.out.println(newDailyNutrition);
 
         return new ResponseEntity<>(newDailyNutrition, HttpStatus.CREATED);
     }
