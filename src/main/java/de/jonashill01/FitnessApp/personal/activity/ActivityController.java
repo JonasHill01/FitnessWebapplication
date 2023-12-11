@@ -59,13 +59,15 @@ public class ActivityController {
         final int hoursADay = 24;
 
         ObjectId personId = request.getPersonId();
+        Optional<Person> personFromRequest = personService.getPersonFromObjectId(personId);
         int sleep = request.getSleep();
         int sitting = request.getSitting();
         int walking = request.getWalking();
         int training = request.getTraining();
         Date timestamp = request.getTimestamp();
 
-        return personId != null && sleep + sitting + walking + training == hoursADay && timestamp != null;
+        return personId != null && personFromRequest.isPresent()
+                && sleep + sitting + walking + training == hoursADay && timestamp != null;
     }
 
     private Activity createActivityFromRequest(ActivityRequest request) {
