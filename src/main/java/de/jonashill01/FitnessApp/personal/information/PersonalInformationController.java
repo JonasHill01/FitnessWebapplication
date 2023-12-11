@@ -29,8 +29,8 @@ public class PersonalInformationController {
     public ResponseEntity<Person> createPerson(@RequestBody PersonalInformationRequest request) {
         if(!isValidRequest(request)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-        BodyStatistics bodyStatistics = createBodyStatisticFromRequest(request);
-        Person newPerson = createNewPerson(request, bodyStatistics);
+        BodyStatistics bodyStatistics = getBodyStatisticFromRequest(request);
+        Person newPerson = getNewPerson(request, bodyStatistics);
 
         return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
     }
@@ -44,11 +44,11 @@ public class PersonalInformationController {
         return weight > 0 && height > 0 && age > 0 && name != null && goalId != null;
     }
 
-    private BodyStatistics createBodyStatisticFromRequest(PersonalInformationRequest request) {
+    private BodyStatistics getBodyStatisticFromRequest(PersonalInformationRequest request) {
         return bodyStatisticsService.createBodyStatistics(request.getWeight(), request.getHeight());
     }
 
-    private Person createNewPerson(PersonalInformationRequest request, BodyStatistics bodyStatistics) {
+    private Person getNewPerson(PersonalInformationRequest request, BodyStatistics bodyStatistics) {
         return personService.createPerson(bodyStatistics.getObjId(), request.getGoalId(), request.getAge(), request.getName(), request.isMale());
     }
 

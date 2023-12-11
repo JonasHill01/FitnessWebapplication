@@ -11,6 +11,8 @@ public class PersonService {
     private PersonRepository personRepository;
 
     public Person createPerson(ObjectId bodyStatsId, ObjectId goalId, int age, String name, boolean isMale) {
-       return personRepository.insert(new Person(bodyStatsId, goalId, age, name, isMale));
+        Person newPerson = new Person(bodyStatsId, goalId, age, name, isMale);
+       return personRepository.insert(newPerson);
+    }
     }
 }
