@@ -41,17 +41,11 @@ public class ActivityController {
         if(!isRequestValid(request)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         Activity newActivity = createActivityFromRequest(request);
 
-        Optional<Person> personOpt = personService.getPersonFromObjectId(request.getPersonId());
-        if(personOpt.isEmpty()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        Person person = personOpt.get();
+        Optional<DailyNutrition> newDailyNutritionPlanOpt = createDailyNutrition(newActivity, request);
+        if(newDailyNutritionPlanOpt.isEmpty()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        DailyNutrition newDailyNutritionPlan = newDailyNutritionPlanOpt.get();
 
-        Optional<BodyStatistics> bodyStatisticsOpt = bodyStatisticsService.getBodyStatisticFromObjectId(person.getBodyStatsId());
-        if(bodyStatisticsOpt.isEmpty()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        BodyStatistics bodyStatistics = bodyStatisticsOpt.get();
-
-        DailyNutrition newDailyNutrition = createDailyNutrition(person, bodyStatistics, newActivity);
-
-        return new ResponseEntity<>(newDailyNutrition, HttpStatus.CREATED);
+        return new ResponseEntity<>(newDailyNutritionPlan, HttpStatus.CREATED);
     }
 
     private boolean isRequestValid(ActivityRequest request) {
@@ -73,8 +67,17 @@ public class ActivityController {
         return activityService.createActivity(request.getPersonId(), request.getSleep(), request.getSitting(), request.getWalking(), request.getTraining(), request.getTimestamp());
     }
 
-    private DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {
-        return dailyNutritionService.createDailyNutrition(person, bodyStatistics, activity);
+    private Optional<DailyNutrition> createDailyNutrition(Activity activity, ActivityRequest request) {
+
+        Optional<Person> personOpt = personService.getPersonFromObjectId(request.getPersonId());
+        if(personOpt.isEmpty()) return Optional.empty();
+        Person person = personOpt.get();
+
+        Optional<BodyStatistics> bodyStatisticsOpt = bodyStatisticsService.getBodyStatisticFromObjectId(person.getBodyStatsId());
+        if(bodyStatisticsOpt.isEmpty()) return Optional.empty();
+        BodyStatistics bodyStatistics = bodyStatisticsOpt.get();
+
+        return Optional.of(dailyNutritionService.createDailyNutrition(person, bodyStatistics, activity));
     }
 
 }
