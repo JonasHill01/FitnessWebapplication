@@ -8,8 +8,8 @@ import de.jonashill01.FitnessApp.personal.information.body_statistics.BodyStatis
 import de.jonashill01.FitnessApp.personal.information.body_statistics.BodyStatisticsService;
 import de.jonashill01.FitnessApp.personal.information.person.Person;
 import de.jonashill01.FitnessApp.personal.information.person.PersonService;
+import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,19 +22,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/person/activity/add")
+@AllArgsConstructor
 public class ActivityController {
 
-    @Autowired
-    private ActivityService activityService;
+    private final ActivityService activityService;
 
-    @Autowired
-    private DailyNutritionService dailyNutritionService;
+    private final DailyNutritionService dailyNutritionService;
 
-    @Autowired
-    private PersonService personService;
+    private final PersonService personService;
 
-    @Autowired
-    private BodyStatisticsService bodyStatisticsService;
+    private final BodyStatisticsService bodyStatisticsService;
 
     @PostMapping
     public ResponseEntity<DailyNutrition> createDailyNutritionPlan(@RequestBody ActivityRequest request) {
