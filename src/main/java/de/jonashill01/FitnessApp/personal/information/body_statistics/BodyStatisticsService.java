@@ -1,8 +1,11 @@
 package de.jonashill01.FitnessApp.personal.information.body_statistics;
 
 import de.jonashill01.FitnessApp.Utils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class BodyStatisticsService {
@@ -15,6 +18,10 @@ public class BodyStatisticsService {
         double heightInMeters = (double) height / 100;
         BodyStatistics newBodyStats = new BodyStatistics(weight, height, calculateBMI(weight, heightInMeters));
         return bodyStatisticsRepository.insert(newBodyStats);
+    }
+
+    public Optional<BodyStatistics> getBodyStatisticFromObjectId(ObjectId objId) {
+        return bodyStatisticsRepository.findById(objId);
     }
 
     private double calculateBMI(int weight, double height) {
