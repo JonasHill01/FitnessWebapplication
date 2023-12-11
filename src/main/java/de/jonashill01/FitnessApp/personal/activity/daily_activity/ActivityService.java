@@ -16,8 +16,8 @@ public class ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    public Activity createActivity(int sleep, int sitting, int walking, int training, Date timestamp) {
-        Activity newActivity = new Activity(sleep, sitting, walking, training, timestamp);
+    public Activity createActivity(ObjectId personId, int sleep, int sitting, int walking, int training, Date timestamp) {
+        Activity newActivity = new Activity(personId, sleep, sitting, walking, training, timestamp);
         return activityRepository.insert(newActivity);
     }
 

@@ -71,7 +71,7 @@ public class ActivityController {
     }
 
     private Activity createActivityFromRequest(ActivityRequest request) {
-        return activityService.createActivity(request.getSleep(), request.getSitting(), request.getWalking(), request.getTraining(), request.getTimestamp());
+        return activityService.createActivity(request.getPersonId(), request.getSleep(), request.getSitting(), request.getWalking(), request.getTraining(), request.getTimestamp());
     }
 
     private DailyNutrition createDailyNutrition(Person person, BodyStatistics bodyStatistics, Activity activity) {

@@ -17,10 +17,12 @@ public class Activity {
 
     @Id
     private ObjectId objId;
+    private ObjectId personId;
     private int sleep, sitting, walking, training;
     private Date timestamp;
 
-    public Activity(int sleep, int sitting, int walking, int training, Date timestamp) {
+    public Activity(ObjectId personId, int sleep, int sitting, int walking, int training, Date timestamp) {
+        this.personId = personId;
         this.sleep = sleep;
         this.sitting = sitting;
         this.walking = walking;
